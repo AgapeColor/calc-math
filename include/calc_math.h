@@ -11,45 +11,45 @@ namespace calc_math {
         INVALID_INPUT
     };
 
-    inline MathCode add(long long a, long long b, long long& out) {
-        if ((b > 0 && a > LLONG_MAX - b) || (b < 0 && a < LLONG_MIN - b))
+    inline MathCode add(long long first, long long second, long long& out) {
+        if ((second > 0 && first > LLONG_MAX - second) || (second < 0 && first < LLONG_MIN - second))
             return OVERFLOW;
-        out = a + b;
+        out = first + second;
         return OK;
     }
 
-    inline MathCode sub(long long a, long long b, long long& out) {
-        if ((b > 0 && a < LLONG_MIN + b) || (b < 0 && a > LLONG_MAX + b))
+    inline MathCode sub(long long first, long long second, long long& out) {
+        if ((second > 0 && first < LLONG_MIN + second) || (second < 0 && first > LLONG_MAX + second))
             return OVERFLOW;
-        out = a - b;
+        out = first - second;
         return OK;
     }
 
-    inline MathCode mul(long long a, long long b, long long& out) {
-        if (a == 0 || b == 0) {
+    inline MathCode mul(long long first, long long second, long long& out) {
+        if (first == 0 || second == 0) {
             out = 0;
             return OK;
         }
 
-        if (a > 0) {
-            if (b > 0) { if (a > LLONG_MAX / b) return OVERFLOW; }
-            else       { if (b < LLONG_MIN / a) return OVERFLOW; }
+        if (first > 0) {
+            if (second > 0) { if (first > LLONG_MAX / second) return OVERFLOW; }
+            else            { if (second < LLONG_MIN / first) return OVERFLOW; }
         }
         else {
-            if (b > 0) { if (a < LLONG_MIN / b) return OVERFLOW; }
-            else       { if (a < LLONG_MAX / b) return OVERFLOW; }
+            if (second > 0) { if (first < LLONG_MIN / second) return OVERFLOW; }
+            else            { if (first < LLONG_MAX / second) return OVERFLOW; }
         }
 
-        out = a * b;
+        out = first * second;
         return OK;
     }
 
-    inline MathCode div(long long a, long long b, long long& out) {
-        if (b == 0) 
+    inline MathCode div(long long first, long long second, long long& out) {
+        if (second == 0) 
             return DIV_BY_ZERO;
-        if (a == LLONG_MIN && b == -1) 
+        if (first == LLONG_MIN && second == -1) 
             return OVERFLOW;
-        out = a / b;
+        out = first / second;
         return OK;
     }
 
