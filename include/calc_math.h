@@ -12,35 +12,20 @@ namespace calc_math {
     };
 
     inline MathCode add(long long first, long long second, long long& out) {
-        if ((second > 0 && first > LLONG_MAX - second) || (second < 0 && first < LLONG_MIN - second))
+        if (__builtin_add_overflow(first, second, &out))
             return OVERFLOW;
-        out = first + second;
         return OK;
     }
 
     inline MathCode sub(long long first, long long second, long long& out) {
-        if ((second > 0 && first < LLONG_MIN + second) || (second < 0 && first > LLONG_MAX + second))
+        if (__builtin_sub_overflow(first, second, &out))
             return OVERFLOW;
-        out = first - second;
         return OK;
     }
 
     inline MathCode mul(long long first, long long second, long long& out) {
-        if (first == 0 || second == 0) {
-            out = 0;
-            return OK;
-        }
-
-        if (first > 0) {
-            if (second > 0) { if (first > LLONG_MAX / second) return OVERFLOW; }
-            else            { if (second < LLONG_MIN / first) return OVERFLOW; }
-        }
-        else {
-            if (second > 0) { if (first < LLONG_MIN / second) return OVERFLOW; }
-            else            { if (first < LLONG_MAX / second) return OVERFLOW; }
-        }
-
-        out = first * second;
+        if (__builtin_mul_overflow(first, second, &out))
+            return OVERFLOW;
         return OK;
     }
 
