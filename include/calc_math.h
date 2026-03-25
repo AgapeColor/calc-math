@@ -11,40 +11,40 @@ namespace calc_math {
         INVALID_INPUT
     };
 
-    inline MathCode add(long long first, long long second, long long& out) {
+    inline MathCode add(int first, int second, int& out) {
         if (__builtin_add_overflow(first, second, &out))
             return OVERFLOW;
         return OK;
     }
 
-    inline MathCode sub(long long first, long long second, long long& out) {
+    inline MathCode sub(int first, int second, int& out) {
         if (__builtin_sub_overflow(first, second, &out))
             return OVERFLOW;
         return OK;
     }
 
-    inline MathCode mul(long long first, long long second, long long& out) {
+    inline MathCode mul(int first, int second, int& out) {
         if (__builtin_mul_overflow(first, second, &out))
             return OVERFLOW;
         return OK;
     }
 
-    inline MathCode div(long long first, long long second, long long& out) {
+    inline MathCode div(int first, int second, int& out) {
         if (second == 0) 
             return DIV_BY_ZERO;
-        if (first == LLONG_MIN && second == -1) 
+        if (first == INT_MIN && second == -1) 
             return OVERFLOW;
         out = first / second;
         return OK;
     }
 
-    inline MathCode pow(long long base, long long exp, long long& out) {
+    inline MathCode pow(int base, int exp, int& out) {
         if (exp < 0)
             return INVALID_INPUT;
 
-        long long result = 1;
+        int result = 1;
         MathCode code;
-        for (long long i = 0; i < exp; ++i) {
+        for (int i = 0; i < exp; ++i) {
             code = mul(result, base, result);
             if (code != OK)
                 return code;
@@ -53,7 +53,7 @@ namespace calc_math {
         return OK;
     }
 
-    inline MathCode fact(long long n, long long& out) {
+    inline MathCode fact(int n, int& out) {
         if (n < 0)
             return INVALID_INPUT;
 
@@ -62,7 +62,7 @@ namespace calc_math {
             return OK;
         }
 
-        long long prev = 0;
+        int prev = 0;
         MathCode code = fact(n - 1, prev);
         if (code != OK)
             return code;
